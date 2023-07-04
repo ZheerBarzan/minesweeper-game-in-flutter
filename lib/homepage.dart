@@ -8,6 +8,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //variables
+
+  int numberOfSqures = 9 * 9;
+  int numberInEachRow = 9;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,9 +60,24 @@ class _HomePageState extends State<HomePage> {
                 )
               ],
             ),
-          )
+          ),
 
           //grid
+          Expanded(
+            child: GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: numberOfSqures,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: numberInEachRow),
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Container(
+                      color: Colors.blue,
+                    ),
+                  );
+                }),
+          ),
 
           //branding
         ],
