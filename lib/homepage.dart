@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:minesweeper_game/numberbox.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,6 +13,21 @@ class _HomePageState extends State<HomePage> {
 
   int numberOfSqures = 9 * 9;
   int numberInEachRow = 9;
+
+// [number of the bombs around,   reveled true/false]
+  var squreStatus = [];
+
+  List<int> mineLocation = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    for (int i = 0; i < numberOfSqures; i++) {
+      squreStatus.add([0, false]);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +37,7 @@ class _HomePageState extends State<HomePage> {
           //game state and menu
           Container(
             height: 150,
-            color: Colors.grey,
+            // color: Colors.grey,
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -30,7 +46,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "6",
+                      "0",
                       style: TextStyle(fontSize: 40),
                     ),
                     Text("bomb")
@@ -39,7 +55,7 @@ class _HomePageState extends State<HomePage> {
 
                 // this button refreshs the game
                 Card(
-                  color: Colors.grey,
+                  color: Colors.black,
                   child: Icon(
                     Icons.refresh,
                     color: Colors.white,
@@ -52,7 +68,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "6",
+                      "0",
                       style: TextStyle(fontSize: 40),
                     ),
                     Text("timer")
@@ -70,16 +86,17 @@ class _HomePageState extends State<HomePage> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: numberInEachRow),
                 itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Container(
-                      color: Colors.blue,
-                    ),
+                  return NumberBox(
+                    chiled: index,
                   );
                 }),
           ),
 
           //branding
+          const Padding(
+            padding: EdgeInsets.only(bottom: 40),
+            child: Text("CREATED BY ZHEER BARZAN"),
+          )
         ],
       ),
     );

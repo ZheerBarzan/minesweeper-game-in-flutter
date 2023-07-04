@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 
 class NumberBox extends StatelessWidget {
-  const NumberBox({super.key});
+  final chiled;
+
+  NumberBox({this.chiled});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(2.0),
+      padding: const EdgeInsets.all(1.0),
       child: Container(
-        color: Colors.blue,
+        color: Colors.grey.shade400,
+        child: Center(child: Text(chiled.toString())),
       ),
     );
   }
