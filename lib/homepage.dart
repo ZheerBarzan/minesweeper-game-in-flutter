@@ -32,6 +32,17 @@ class _HomePageState extends State<HomePage> {
                     Text("bomb")
                   ],
                 ),
+
+                // this button refreshs the game
+                Card(
+                  color: Colors.grey,
+                  child: Icon(
+                    Icons.refresh,
+                    color: Colors.white,
+                    size: 40,
+                  ),
+                ),
+
                 //this column is the timer to finish the game
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
