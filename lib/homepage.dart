@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:minesweeper_game/bomb.dart';
 import 'package:minesweeper_game/numberbox.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,7 +18,8 @@ class _HomePageState extends State<HomePage> {
 // [number of the bombs around,   reveled true/false]
   var squreStatus = [];
 
-  List<int> mineLocation = [];
+// mine locations
+  List<int> mineLocation = [4, 40, 61];
 
   @override
   void initState() {
@@ -86,9 +88,17 @@ class _HomePageState extends State<HomePage> {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: numberInEachRow),
                 itemBuilder: (context, index) {
-                  return NumberBox(
-                    chiled: index,
-                  );
+                  if (mineLocation.contains(index)) {
+                    return Bomb(
+                      chiled: index,
+                      revealed: squreStatus[index][1],
+                    );
+                  } else {
+                    return NumberBox(
+                      chiled: index,
+                      revealed: squreStatus[index][1],
+                    );
+                  }
                 }),
           ),
 
