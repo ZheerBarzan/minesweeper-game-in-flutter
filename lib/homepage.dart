@@ -28,6 +28,48 @@ class _HomePageState extends State<HomePage> {
     for (int i = 0; i < numberOfSqures; i++) {
       squreStatus.add([0, false]);
     }
+    scanBombs();
+  }
+
+  void revealBoxNumbers(int index) {
+    setState(() {
+      squreStatus[index][1] = true;
+    });
+  }
+
+  void scanBombs() {
+    for (int i = 0; i < numberOfSqures; i++) {
+      // no bombs at the start of the game
+      int numberOfBombsAround = 0;
+
+      // now we need to check for the 8 cells surrounding the mine
+
+      // check to the left unless its in the first column
+      if (mineLocation.contains(i - 1) && i % numberInEachRow != 0) {
+        numberOfBombsAround++;
+      }
+      // checking for top left cell unless its the frist column or first row
+      if (mineLocation.contains(i - 1 - numberInEachRow) &&
+          i % numberInEachRow != 0 &&
+          i >= numberInEachRow) {
+        numberOfBombsAround++;
+      }
+      // checking for top left cell unless it the first row
+      if (mineLocation.contains(i - 1) && i >= numberInEachRow) {
+        numberOfBombsAround++;
+      }
+      // checking for top right cell unless its the frist row or first last column
+      if (mineLocation.contains(i + 1 - numberInEachRow) &&
+          i >= numberInEachRow &&
+          i % numberInEachRow != numberInEachRow - 1) {
+        numberOfBombsAround++;
+      }
+      // checking for the cell on the right unless its the last column
+      if (mineLocation.contains(i + 1) &&
+          i % numberInEachRow != numberInEachRow - 1) {
+        numberOfBombsAround++;
+      }
+    }
   }
 
   @override
@@ -92,11 +134,18 @@ class _HomePageState extends State<HomePage> {
                     return Bomb(
                       chiled: index,
                       revealed: squreStatus[index][1],
+                      function: () {
+                        // if a player taps this they will lose the game
+                      },
                     );
                   } else {
                     return NumberBox(
-                      chiled: index,
+                      chiled: index % numberInEachRow,
                       revealed: squreStatus[index][1],
+                      function: () {
+                        // if a player taps this they will reveal the square
+                        revealBoxNumbers(index);
+                      },
                     );
                   }
                 }),
