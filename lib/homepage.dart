@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   var squreStatus = [];
 
 // mine locations
-  List<int> mineLocation = [4, 28, 61];
+  List<int> mineLocation = [4, 28, 61, 10, 20, 62];
 
   @override
   void initState() {
@@ -154,7 +154,6 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context, index) {
                   if (mineLocation.contains(index)) {
                     return Bomb(
-                      chiled: index,
                       revealed: squreStatus[index][1],
                       function: () {
                         // if a player taps this they will lose the game

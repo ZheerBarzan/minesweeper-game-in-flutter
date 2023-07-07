@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Bomb extends StatelessWidget {
-  final chiled;
   bool revealed;
   final function;
 
-  Bomb({this.chiled, required this.revealed, this.function});
+  Bomb({required this.revealed, this.function});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +14,7 @@ class Bomb extends StatelessWidget {
         padding: const EdgeInsets.all(1.0),
         child: Container(
           color: Colors.grey.shade800,
-          child: Center(child: Text(chiled.toString())),
+          child: const Center(child: Text("x")),
         ),
       ),
     );
