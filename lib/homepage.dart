@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   var squreStatus = [];
 
 // mine locations
-  List<int> mineLocation = [4, 40, 61];
+  List<int> mineLocation = [4, 28, 61];
 
   @override
   void initState() {
@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
         numberOfBombsAround++;
       }
       // 3rd checking for top cell unless it the first row
-      if (mineLocation.contains(i - 1) && i >= numberInEachRow) {
+      if (mineLocation.contains(i - numberInEachRow) && i >= numberInEachRow) {
         numberOfBombsAround++;
       }
       // 4th checking for top right cell unless its the frist row or first last column
@@ -86,6 +86,11 @@ class _HomePageState extends State<HomePage> {
           i % numberInEachRow != 0) {
         numberOfBombsAround++;
       }
+
+      // add the total number of mines around to square status
+      setState(() {
+        squreStatus[i][0] = numberOfBombsAround;
+      });
     }
   }
 
@@ -157,7 +162,7 @@ class _HomePageState extends State<HomePage> {
                     );
                   } else {
                     return NumberBox(
-                      chiled: index % numberInEachRow,
+                      chiled: squreStatus[index][0],
                       revealed: squreStatus[index][1],
                       function: () {
                         // if a player taps this they will reveal the square
