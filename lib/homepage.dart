@@ -44,29 +44,46 @@ class _HomePageState extends State<HomePage> {
 
       // now we need to check for the 8 cells surrounding the mine
 
-      // check to the left unless its in the first column
+      // 1st checking to the left unless its in the first column
       if (mineLocation.contains(i - 1) && i % numberInEachRow != 0) {
         numberOfBombsAround++;
       }
-      // checking for top left cell unless its the frist column or first row
+      // 2nd checking for top left cell unless its the frist column or first row
       if (mineLocation.contains(i - 1 - numberInEachRow) &&
           i % numberInEachRow != 0 &&
           i >= numberInEachRow) {
         numberOfBombsAround++;
       }
-      // checking for top left cell unless it the first row
+      // 3rd checking for top cell unless it the first row
       if (mineLocation.contains(i - 1) && i >= numberInEachRow) {
         numberOfBombsAround++;
       }
-      // checking for top right cell unless its the frist row or first last column
+      // 4th checking for top right cell unless its the frist row or first last column
       if (mineLocation.contains(i + 1 - numberInEachRow) &&
           i >= numberInEachRow &&
           i % numberInEachRow != numberInEachRow - 1) {
         numberOfBombsAround++;
       }
-      // checking for the cell on the right unless its the last column
+      // 5th checking for the cell on the right unless its the last column
       if (mineLocation.contains(i + 1) &&
           i % numberInEachRow != numberInEachRow - 1) {
+        numberOfBombsAround++;
+      }
+      // 6th checking the cell on the bottom right unless its the last column or last row
+      if (mineLocation.contains(i + 1 + numberInEachRow) &&
+          i % numberInEachRow != numberInEachRow - 1 &&
+          i < numberOfSqures - numberInEachRow) {
+        numberOfBombsAround++;
+      }
+      // 7th checking the cell on the bottom unless its the last row
+      if (mineLocation.contains(i + numberInEachRow) &&
+          i < numberOfSqures - numberInEachRow) {
+        numberOfBombsAround++;
+      }
+      // 8th cheking the cell on the bottom left unless its the last row or first column
+      if (mineLocation.contains(i - 1 + numberInEachRow) &&
+          i < numberOfSqures - numberInEachRow &&
+          i % numberInEachRow != 0) {
         numberOfBombsAround++;
       }
     }
