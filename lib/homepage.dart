@@ -21,10 +21,12 @@ class _HomePageState extends State<HomePage> {
 // mine locations
   List<int> mineLocation = [4, 28, 61, 10, 20, 62];
 
+  bool minesRevealed = false;
+
   @override
   void initState() {
     super.initState();
-
+    // intially every cell has 0 bombs around and its not revealed
     for (int i = 0; i < numberOfSqures; i++) {
       squreStatus.add([0, false]);
     }
@@ -32,9 +34,89 @@ class _HomePageState extends State<HomePage> {
   }
 
   void revealBoxNumbers(int index) {
-    setState(() {
-      squreStatus[index][1] = true;
-    });
+    // reveal the number cells if the number is: 1,2,3 etc..
+    if (squreStatus[index][0] != 0) {
+      setState(() {
+        squreStatus[index][1] = true;
+      });
+    }
+    // if the current cells is 0
+    else if (squreStatus[index][0] == 0) {
+      //reveal 8 surrounding cells unless you are on a wall
+      setState(() {
+        // reveal the current cells
+        squreStatus[index][0] = "";
+
+        if (index % numberInEachRow != 0) {
+          // if the box isnt revealed and is a 0 then recurse
+          if (squreStatus[index - 1][0] == 0 &&
+              squreStatus[index - 1][1] == false) {
+            revealBoxNumbers(index - 1);
+          }
+          // reveal the left cells
+          squreStatus[index - 1][1] = true;
+        }
+        if (index % numberInEachRow != 0 && index >= numberInEachRow) {
+          if (squreStatus[index - 1 - numberInEachRow][0] == 0 &&
+              squreStatus[index - 1 - numberInEachRow][1] == false) {
+            revealBoxNumbers(index - 1 - numberInEachRow);
+          }
+          // reveal the top left cells
+          squreStatus[index - 1 - numberInEachRow][1] = true;
+        }
+        if (index >= numberInEachRow) {
+          if (squreStatus[index - numberInEachRow][0] == 0 &&
+              squreStatus[index - numberInEachRow][1] == false) {
+            revealBoxNumbers(index - numberInEachRow);
+          }
+          // reveal the top cells
+          squreStatus[index - numberInEachRow][1] = true;
+        }
+        if (index >= numberInEachRow &&
+            index % numberInEachRow != numberInEachRow - 1) {
+          if (squreStatus[index + 1 - numberInEachRow][0] == 0 &&
+              squreStatus[index + 1 - numberInEachRow][1] == false) {
+            revealBoxNumbers(index + 1 - numberInEachRow);
+          }
+          // reveal the top right cells
+          squreStatus[index + 1 - numberInEachRow][1] = true;
+        }
+        if (index % numberInEachRow != numberInEachRow - 1) {
+          if (squreStatus[index + 1][0] == 0 &&
+              squreStatus[index + 1][1] == false) {
+            revealBoxNumbers(index + 1);
+          }
+          // reveal the right cells
+          squreStatus[index + 1][1] = true;
+        }
+        if (index < numberOfSqures - numberInEachRow &&
+            index % numberInEachRow != numberInEachRow - 1) {
+          if (squreStatus[index + 1 + numberInEachRow][0] == 0 &&
+              squreStatus[index + 1 + numberInEachRow][1] == false) {
+            revealBoxNumbers(index + 1 + numberInEachRow);
+          }
+          // reveal the bottom right cells
+          squreStatus[index + 1 + numberInEachRow][1] = true;
+        }
+        if (index < numberOfSqures - numberInEachRow) {
+          if (squreStatus[index + numberInEachRow][0] == 0 &&
+              squreStatus[index + numberInEachRow][1] == false) {
+            revealBoxNumbers(index + numberInEachRow);
+          }
+          // reveal the bottom cells
+          squreStatus[index + numberInEachRow][1] = true;
+        }
+        if (index < numberOfSqures - numberInEachRow &&
+            index % numberInEachRow != 0) {
+          if (squreStatus[index - 1 + numberInEachRow][0] == 0 &&
+              squreStatus[index - 1 + numberInEachRow][1] == false) {
+            revealBoxNumbers(index - 1 + numberInEachRow);
+          }
+          // reveal the bottom left cells
+          squreStatus[index - 1 + numberInEachRow][1] = true;
+        }
+      });
+    }
   }
 
   void scanBombs() {
@@ -94,6 +176,22 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void playerLost() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: Colors.grey.shade700,
+            title: const Center(
+              child: Text(
+                "YOU LOST ✌️😎",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,7 +202,7 @@ class _HomePageState extends State<HomePage> {
           Container(
             height: 150,
             // color: Colors.grey,
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 //this column is the number of mines in the screen
@@ -112,15 +210,15 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "0",
-                      style: TextStyle(fontSize: 40),
+                      mineLocation.length.toString(),
+                      style: const TextStyle(fontSize: 40),
                     ),
-                    Text("bomb")
+                    const Text("M I N E S")
                   ],
                 ),
 
                 // this button refreshs the game
-                Card(
+                const Card(
                   color: Colors.black,
                   child: Icon(
                     Icons.refresh,
@@ -130,14 +228,14 @@ class _HomePageState extends State<HomePage> {
                 ),
 
                 //this column is the timer to finish the game
-                Column(
+                const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "0",
                       style: TextStyle(fontSize: 40),
                     ),
-                    Text("timer")
+                    Text("T I M E R")
                   ],
                 )
               ],
@@ -154,14 +252,18 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context, index) {
                   if (mineLocation.contains(index)) {
                     return Bomb(
-                      revealed: squreStatus[index][1],
+                      revealed: minesRevealed,
                       function: () {
+                        setState(() {
+                          minesRevealed = true;
+                        });
+                        playerLost();
                         // if a player taps this they will lose the game
                       },
                     );
                   } else {
                     return NumberBox(
-                      chiled: squreStatus[index][0],
+                      child: squreStatus[index][0],
                       revealed: squreStatus[index][1],
                       function: () {
                         // if a player taps this they will reveal the square

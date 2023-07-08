@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class NumberBox extends StatelessWidget {
-  final chiled;
+  var child;
   bool revealed;
   final function;
 
-  NumberBox({this.chiled, required this.revealed, this.function});
+  NumberBox({this.child, required this.revealed, this.function});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,16 @@ class NumberBox extends StatelessWidget {
         padding: const EdgeInsets.all(1.0),
         child: Container(
           color: revealed ? Colors.grey.shade300 : Colors.grey.shade400,
-          child: Center(child: Text(revealed ? chiled.toString() : '')),
+          child: Center(
+            child: Text(
+              revealed ? child.toString() : '',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: child == 1
+                      ? Colors.blue
+                      : (child == 2 ? Colors.green : Colors.red)),
+            ),
+          ),
         ),
       ),
     );
