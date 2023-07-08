@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:minesweeper_game/bomb.dart';
 import 'package:minesweeper_game/numberbox.dart';
+import 'dart:math';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   var squreStatus = [];
 
 // mine locations
-  List<int> mineLocation = [4, 28, 61, 10, 20, 62];
+  List<int> mineLocation = List.generate(9, (_) => Random().nextInt(9 * 9));
 
   bool minesRevealed = false;
 
