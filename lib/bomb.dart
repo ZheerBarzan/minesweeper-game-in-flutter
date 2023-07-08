@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Bomb extends StatelessWidget {
-  bool revealed;
+  final bool revealed;
   final function;
 
   Bomb({required this.revealed, this.function});

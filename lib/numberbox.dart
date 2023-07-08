@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class NumberBox extends StatelessWidget {
-  var child;
-  bool revealed;
+  final child;
+  final bool revealed;
   final function;
 
   NumberBox({this.child, required this.revealed, this.function});
