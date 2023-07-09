@@ -13,14 +13,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   //variables
 
-  int numberOfSqures = 9 * 9;
-  int numberInEachRow = 9;
+  static int numberOfSqures = 9 * 9;
+  static int numberInEachRow = 9;
 
 // [number of the bombs around,   reveled true/false]
   var squreStatus = [];
 
-// mine locations
-  List<int> mineLocation = List.generate(9, (_) => Random().nextInt(9 * 9));
+// mine locations it generates it randomly
+  List<int> mineLocation =
+      List.generate(numberInEachRow, (_) => Random().nextInt(numberOfSqures));
 
   bool minesRevealed = false;
 
@@ -32,6 +33,15 @@ class _HomePageState extends State<HomePage> {
       squreStatus.add([0, false]);
     }
     scanBombs();
+  }
+
+  void restartTheGame() {
+    setState(() {
+      minesRevealed = false;
+      for (int i = 0; i < numberOfSqures; i++) {
+        squreStatus[i][1] = false;
+      }
+    });
   }
 
   void revealBoxNumbers(int index) {
@@ -185,12 +195,72 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: Colors.grey.shade700,
             title: const Center(
               child: Text(
-                "YOU LOST ✌️😎",
+                "YOU LOST 😢",
                 style: TextStyle(color: Colors.white),
               ),
             ),
+            actions: [
+              MaterialButton(
+                color: Colors.grey.shade100,
+                onPressed: () {
+                  restartTheGame();
+                  Navigator.pop(context);
+                },
+                child: const Icon(Icons.refresh),
+              )
+            ],
           );
         });
+  }
+
+  void playerWon() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: Colors.grey.shade700,
+            title: const Center(
+              child: Text(
+                "YOU WON ✌️😎",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            actions: [
+              MaterialButton(
+                  color: Colors.grey.shade100,
+                  onPressed: () {
+                    restartTheGame();
+                    Navigator.pop(context);
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      color: Colors.grey.shade300,
+                      child: const Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Icon(
+                          Icons.refresh,
+                          size: 30,
+                        ),
+                      ),
+                    ),
+                  ))
+            ],
+          );
+        });
+  }
+
+  void checkWinner() {
+    int unrevealedBoxes = 0;
+    for (int i = 0; i < numberOfSqures; i++) {
+      if (squreStatus[i][1] = false) {
+        unrevealedBoxes++;
+      }
+    }
+
+    if (unrevealedBoxes == mineLocation.length) {
+      playerWon();
+    }
   }
 
   @override
@@ -219,12 +289,15 @@ class _HomePageState extends State<HomePage> {
                 ),
 
                 // this button refreshs the game
-                const Card(
-                  color: Colors.black,
-                  child: Icon(
-                    Icons.refresh,
-                    color: Colors.white,
-                    size: 40,
+                GestureDetector(
+                  onTap: restartTheGame,
+                  child: const Card(
+                    color: Colors.black,
+                    child: Icon(
+                      Icons.refresh,
+                      color: Colors.white,
+                      size: 40,
+                    ),
                   ),
                 ),
 
@@ -269,6 +342,7 @@ class _HomePageState extends State<HomePage> {
                       function: () {
                         // if a player taps this they will reveal the square
                         revealBoxNumbers(index);
+                        //checkWinner();
                       },
                     );
                   }
