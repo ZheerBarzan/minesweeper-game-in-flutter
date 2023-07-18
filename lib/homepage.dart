@@ -10,6 +10,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+Stopwatch stopwatch = Stopwatch();
+
 class _HomePageState extends State<HomePage> {
   //variables
 
@@ -31,7 +33,9 @@ class _HomePageState extends State<HomePage> {
     // intially every cell has 0 bombs around and its not revealed
     for (int i = 0; i < numberOfSqures; i++) {
       squreStatus.add([0, false]);
+      stopwatch.start();
     }
+
     scanBombs();
   }
 
@@ -41,6 +45,7 @@ class _HomePageState extends State<HomePage> {
       for (int i = 0; i < numberOfSqures; i++) {
         squreStatus[i][1] = false;
       }
+      stopwatch.reset();
     });
   }
 
@@ -302,14 +307,14 @@ class _HomePageState extends State<HomePage> {
                 ),
 
                 //this column is the timer to finish the game
-                const Column(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "0",
-                      style: TextStyle(fontSize: 40),
+                      "${stopwatch.elapsed.inSeconds}",
+                      style: const TextStyle(fontSize: 40),
                     ),
-                    Text("T I M E R")
+                    const Text("T I M E R(s)")
                   ],
                 )
               ],
