@@ -13,7 +13,15 @@ class Bomb extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(1.0),
         child: Container(
-          color: revealed ? Colors.grey.shade800 : Colors.grey.shade400,
+          color: Colors.grey.shade400,
+          child: revealed
+              ? const Icon(
+                  Icons.local_fire_department,
+                  color: Colors.red,
+                )
+              : Container(
+                  color: Colors.grey.shade400,
+                ),
         ),
       ),
     );
