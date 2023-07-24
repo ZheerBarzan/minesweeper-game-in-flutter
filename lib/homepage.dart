@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:minesweeper_game/bomb.dart';
 import 'package:minesweeper_game/numberbox.dart';
@@ -11,6 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 Stopwatch stopwatch = Stopwatch();
+Timer? timer;
 
 class _HomePageState extends State<HomePage> {
   //variables
@@ -34,6 +37,9 @@ class _HomePageState extends State<HomePage> {
     for (int i = 0; i < numberOfSqures; i++) {
       squreStatus.add([0, false]);
       stopwatch.start();
+      timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        setState(() {});
+      });
     }
 
     scanBombs();
