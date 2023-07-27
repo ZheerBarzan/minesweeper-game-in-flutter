@@ -353,7 +353,7 @@ class _HomePageState extends State<HomePage> {
                       function: () {
                         // if a player taps this they will reveal the square
                         revealBoxNumbers(index);
-                        //checkWinner();
+                        checkWinner();
                       },
                     );
                   }
