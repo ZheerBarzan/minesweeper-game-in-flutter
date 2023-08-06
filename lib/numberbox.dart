@@ -5,7 +5,8 @@ class NumberBox extends StatelessWidget {
   final bool revealed;
   final function;
 
-  NumberBox({this.child, required this.revealed, this.function});
+  const NumberBox(
+      {required this.child, required this.revealed, required this.function});
 
   @override
   Widget build(BuildContext context) {

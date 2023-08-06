@@ -264,7 +264,7 @@ class _HomePageState extends State<HomePage> {
   void checkWinner() {
     int unrevealedBoxes = 0;
     for (int i = 0; i < numberOfSqures; i++) {
-      if (squreStatus[i][1] = false) {
+      if (squreStatus[i][1] == false) {
         unrevealedBoxes++;
       }
     }
